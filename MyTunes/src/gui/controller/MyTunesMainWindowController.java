@@ -20,10 +20,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 
 public class MyTunesMainWindowController implements Initializable {
@@ -57,6 +54,7 @@ public class MyTunesMainWindowController implements Initializable {
 
     private boolean running;
 
+
     /**
      * This Method is creating an arraylist I am using for a mock library until the database is complete.
      * This Method also implements our volume slider and sets the program to the first song in the music folder.
@@ -77,33 +75,15 @@ public class MyTunesMainWindowController implements Initializable {
 
             }
         }
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        songLabel.setText(songs.get(songNumber).getName());
-
-        for(int i = 0; i < speeds.length; i++) {
-            speedBox.getItems().add(Integer.toString(speeds[i])+"%");
-        }
-
-        speedBox.setOnAction(this::changeSpeed);
-
-
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>(){
-
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-               mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-            }
-        });
+        changeMediaPlayer();
+        playbackSpeed();
+        volume();
     }
-
-
-
 
     /**
      * This method is what is used to begin playing a song.
      * It also starts the timer for the song progress bar, makes sure our volume always matches the volume slider
-     * and changes our speed setting when we play a new song.
+     * and keeps our speed setting when we play a new song.
      *
      */
     private void playSong()
@@ -112,12 +92,14 @@ public class MyTunesMainWindowController implements Initializable {
         changeSpeed(null);
         mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
         mediaPlayer.play();
+
+
     }
 
     /**
      * This method stops our music and pauses the timer.
      */
-    public void pauseMedia()
+    private void pauseMedia()
     {
         cancelTimer();
         mediaPlayer.pause();
@@ -126,7 +108,7 @@ public class MyTunesMainWindowController implements Initializable {
     /**
      * This method resets our song and the progress bar to the beginning.
      */
-    public void resetMedia()
+    private void resetMedia()
     {
         songProgressBar.setProgress(0);
         mediaPlayer.seek(Duration.seconds(0));
@@ -146,13 +128,20 @@ public class MyTunesMainWindowController implements Initializable {
         }
     }
 
+    /**
+     * This method simply determines what happens when we interact with the nextMedia button.
+     */
+    @FXML
+    void nextMedia(ActionEvent event) {
+        mediaSkip();
+    }
 
     /**
      * This method allows us to skip to the next song.
      * The if statement is checking if we are at the end of our list or not and allowing us to loop the "playlist" infinitely.
      */
-    @FXML
-    void nextMedia(ActionEvent event) {
+    private void mediaSkip()
+    {
         if(songNumber < songs.size() - 1)
         {
             songNumber++;
@@ -163,9 +152,7 @@ public class MyTunesMainWindowController implements Initializable {
             songNumber = 0;
             changeMediaPlayer();
         }
-
     }
-
 
     /**
      * This method allows us to skip to the previous song.
@@ -179,19 +166,18 @@ public class MyTunesMainWindowController implements Initializable {
         if(songNumber > 0)
         {
 
-            if(i > 5){
+            if(i > 3){
                 resetMedia();
             }
             else {
 
                 songNumber--;
-                mediaPlayer.stop();
                 changeMediaPlayer();
             }
         }
 
         else {
-            if(i > 5){
+            if(i > 3){
                 resetMedia();
             }
             else {
@@ -201,8 +187,8 @@ public class MyTunesMainWindowController implements Initializable {
         }
     }
 
-
-    public void ClickNewPlaylist(ActionEvent actionEvent) throws IOException {
+    @FXML
+    void ClickNewPlaylist(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewPlaylistView.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
@@ -210,8 +196,8 @@ public class MyTunesMainWindowController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
-    public void ClickEditPlaylist(ActionEvent actionEvent) throws IOException {
+    @FXML
+    void ClickEditPlaylist(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditPlaylistView.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
@@ -219,8 +205,8 @@ public class MyTunesMainWindowController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
-    public void ClickNewSong(ActionEvent actionEvent) throws IOException {
+    @FXML
+    void ClickNewSong(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewSongView.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
@@ -228,8 +214,8 @@ public class MyTunesMainWindowController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
-    public void ClickEditSong(ActionEvent actionEvent) throws IOException {
+    @FXML
+    void ClickEditSong(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditSongView.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
@@ -241,12 +227,11 @@ public class MyTunesMainWindowController implements Initializable {
     /**
      * This method is what we use to determine the passed time since the song began, and how much time is left.
      * We compare our current time and our end time to get our current progress percentage.
-     * if the progress reaches 100%, the timer is reset.
+     * if the progress reaches 100%, the timer is reset and our next song plays.
      */
-    public void beginTimer()
+    private void beginTimer()
     {
         timer = new Timer();
-
         task = new TimerTask() {
             public void run() {
                 running = true;
@@ -265,7 +250,7 @@ public class MyTunesMainWindowController implements Initializable {
     /**
      * resets our timer and lets us our program know we are no longer running a song.
      */
-    public void cancelTimer(){
+    private void cancelTimer(){
         running = false;
         timer.cancel();
     }
@@ -277,18 +262,37 @@ public class MyTunesMainWindowController implements Initializable {
      */
     private void changeMediaPlayer()
     {
-        mediaPlayer.stop();
+
         if(running) {
+            mediaPlayer.stop();
             cancelTimer();
+            media = new Media(songs.get(songNumber).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            songLabel.setText(songs.get(songNumber).getName());
+
+            playSong();
         }
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        songLabel.setText(songs.get(songNumber).getName());
-        playSong();
+        else {
+            media = new Media(songs.get(songNumber).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            songLabel.setText(songs.get(songNumber).getName());
+        }
     }
 
     /**
-     * This method is what we use to change the playback speed of our song.
+     * This method is the logic of our speed change.
+     */
+    private void playbackSpeed()
+    {
+        for(int i = 0; i < speeds.length; i++) {
+            speedBox.getItems().add(Integer.toString(speeds[i])+"%");
+        }
+
+        speedBox.setOnAction(this::changeSpeed);
+    }
+
+    /**
+     * This method is what we use to let the user set the playback speed of our song.
      */
     public void changeSpeed(ActionEvent event) {
         if(speedBox.getValue() == null) {
@@ -299,8 +303,19 @@ public class MyTunesMainWindowController implements Initializable {
         }
     }
 
+    /**
+     * This method sets determines how our volume slider works.
+     */
+    public void volume()
+    {
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>(){
 
-
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+            }
+        });
+    }
 
     @FXML
     void clickSearch(ActionEvent event) {
