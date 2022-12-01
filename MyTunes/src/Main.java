@@ -6,18 +6,18 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-        public static void main(String[] args) {
-            Main.launch();
-        }
-
-        @Override
-        public void start(Stage primaryStage) throws Exception {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/view/MyTunesMainWindow.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            primaryStage.setTitle("My Tunes");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        }
+    public static void main(String[] args) {
+        Main.launch();
     }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/view/MyTunesMainWindow.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("My Tunes");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}
 
