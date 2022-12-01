@@ -64,8 +64,8 @@ public class MyTunesMainWindowController implements Initializable {
         /**
          * Note: I could not figure out how to make the file work by calling only for the music folder, so I had to make
          * an absolute path reference. This is a large part of a temporary patch to make sure all methods work until we have the database.
+         * Right-click the music folder on the side, copy path/reference, take the absolute path and replace the pathname in line 70 to make the app work.
          */
-
         songs = new ArrayList<File>();
         directory = new File("C:\\Users\\Don\\Documents\\GitHub\\MyTunes\\MyTunes\\src\\gui\\music");
         files = directory.listFiles();
@@ -92,8 +92,6 @@ public class MyTunesMainWindowController implements Initializable {
         changeSpeed(null);
         mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
         mediaPlayer.play();
-
-
     }
 
     /**
@@ -132,7 +130,8 @@ public class MyTunesMainWindowController implements Initializable {
      * This method simply determines what happens when we interact with the nextMedia button.
      */
     @FXML
-    void nextMedia(ActionEvent event) {
+    void nextMedia(ActionEvent event)
+    {
         mediaSkip();
     }
 
@@ -165,17 +164,14 @@ public class MyTunesMainWindowController implements Initializable {
         int i = (int) mediaPlayer.getCurrentTime().toSeconds();
         if(songNumber > 0)
         {
-
             if(i > 3){
                 resetMedia();
             }
             else {
-
                 songNumber--;
                 changeMediaPlayer();
             }
         }
-
         else {
             if(i > 3){
                 resetMedia();
@@ -262,14 +258,12 @@ public class MyTunesMainWindowController implements Initializable {
      */
     private void changeMediaPlayer()
     {
-
         if(running) {
             mediaPlayer.stop();
             cancelTimer();
             media = new Media(songs.get(songNumber).toURI().toString());
             mediaPlayer = new MediaPlayer(media);
             songLabel.setText(songs.get(songNumber).getName());
-
             playSong();
         }
         else {
@@ -287,7 +281,6 @@ public class MyTunesMainWindowController implements Initializable {
         for(int i = 0; i < speeds.length; i++) {
             speedBox.getItems().add(Integer.toString(speeds[i])+"%");
         }
-
         speedBox.setOnAction(this::changeSpeed);
     }
 
@@ -304,12 +297,11 @@ public class MyTunesMainWindowController implements Initializable {
     }
 
     /**
-     * This method sets determines how our volume slider works.
+     * This method determines how our volume slider works.
      */
     public void volume()
     {
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>(){
-
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
