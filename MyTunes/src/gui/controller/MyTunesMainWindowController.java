@@ -61,7 +61,7 @@ public class MyTunesMainWindowController implements Initializable {
      * This Method also implements our volume slider and sets the program to the first song in the music folder.
      * Note: I could not figure out how to make the file work by calling only for the music folder, so I had to make
      * an absolute path reference. This is a large part of a temporary patch to make sure all methods work until we have the database.
-     * Right-click the music folder on the side, copy path/reference, take the absolute path and replace the pathname in line 64 to make the app work.
+     * Right-click the music folder on the side, copy path/reference, take the absolute path and replace the pathname in line 69 to make the app work.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
