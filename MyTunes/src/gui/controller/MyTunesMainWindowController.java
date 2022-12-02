@@ -2,6 +2,8 @@ package gui.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,8 +32,6 @@ public class MyTunesMainWindowController implements Initializable {
     @FXML
     public Button playButton, previousButton, nextButton;
     @FXML
-    public ListView songList,songsWithinPlaylist,playlistList;
-    @FXML
     private ImageView play_icon, backward_icon;
     @FXML
     private Label songLabel;
@@ -42,6 +42,10 @@ public class MyTunesMainWindowController implements Initializable {
     private Slider volumeSlider;
     @FXML
     private ComboBox<String> speedBox;
+    @FXML
+    private ListView songList,songsWithinPlaylist,playlistList;
+
+    private ObservableList<String> withinPlaylist = FXCollections.observableArrayList();
 
     private MediaPlayer mediaPlayer;
     private Media media;
@@ -59,18 +63,20 @@ public class MyTunesMainWindowController implements Initializable {
     /**
      * This Method is creating an arraylist I am using for a mock library until the database is complete.
      * This Method also implements our volume slider and sets the program to the first song in the music folder.
-     * Note: I could not figure out how to make the file work by calling only for the music folder, so I had to make
-     * an absolute path reference. This is a large part of a temporary patch to make sure all methods work until we have the database.
-     * Right-click the music folder on the side, copy path/reference, take the absolute path and replace the pathname in line 69 to make the app work.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         songs = new ArrayList<>();
-        File directory = new File("C:\\Users\\Don\\Documents\\GitHub\\MyTunes\\MyTunes\\src\\gui\\music");
+        File directory = new File("MyTunes/src/gui/music");
         File[] files = directory.listFiles();
+
+        songsWithinPlaylist.setItems(withinPlaylist);
+
 
         if(files != null){
             Collections.addAll(songs, files);
+            String inPL = Arrays.toString(files);
+            withinPlaylist.add(inPL);
         }
         mediaSet();
         playbackSpeed();
