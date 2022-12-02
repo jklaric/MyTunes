@@ -43,7 +43,7 @@ public class MyTunesMainWindowController implements Initializable {
     @FXML
     private ComboBox<String> speedBox;
     @FXML
-    private ListView songList,songsWithinPlaylist,playlistList;
+    private ListView songList,songsWithinPlaylist ,playlistList;
 
     private ObservableList<String> withinPlaylist = FXCollections.observableArrayList();
 
@@ -62,22 +62,18 @@ public class MyTunesMainWindowController implements Initializable {
 
     /**
      * This Method is creating an arraylist I am using for a mock library until the database is complete.
-     * This Method also implements our volume slider and sets the program to the first song in the music folder.
+     * It also activates several methods for us on initialization.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         songs = new ArrayList<>();
         File directory = new File("MyTunes/src/gui/music");
         File[] files = directory.listFiles();
-
-        songsWithinPlaylist.setItems(withinPlaylist);
-
-
         if(files != null){
             Collections.addAll(songs, files);
-            String inPL = Arrays.toString(files);
-            withinPlaylist.add(inPL);
+
         }
+        createPlaylist();
         mediaSet();
         playbackSpeed();
         volume();
@@ -234,7 +230,6 @@ public class MyTunesMainWindowController implements Initializable {
      * This method is what we use to determine the passed time since the song began, and how much time is left.
      * We compare our current time and our end time to get our current progress percentage.
      * if the progress reaches 100%, the timer is reset and our next song plays.
-     *
      * This method is also used to change our previous button icon according to the function it has.
      */
     private void beginTimer()
@@ -329,13 +324,24 @@ public class MyTunesMainWindowController implements Initializable {
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> mediaPlayer.setVolume(volumeSlider.getValue() * 0.01));
     }
 
+    /**
+     * This method turns our music folder into a playlist and then uses our songsinplaylist listview to display it.
+     */
+    private void createPlaylist()
+    {
+        File directory = new File("MyTunes/src/gui/music");
+        String[] inPL;
+        inPL = directory.list();
+        for (String inPlaylist: inPL
+        ) {withinPlaylist.add(inPlaylist);
+
+        }
+        songsWithinPlaylist.setItems(withinPlaylist);
+    }
+
     @FXML
     void clickSearch(ActionEvent event) {
 
     }
-
-
-
-
 }
 
