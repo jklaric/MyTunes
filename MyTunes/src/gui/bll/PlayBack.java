@@ -28,9 +28,7 @@ public class PlayBack {
 
     /**
      * This method is what is used to begin playing a song.
-     * It also starts the timer for the song progress bar, makes sure our volume always matches the volume slider
-     * and keeps our speed setting when we play a new song.
-     *
+     * It lets us know our player is running and plays the selected song.
      */
     public void playSong()
     {
@@ -39,6 +37,10 @@ public class PlayBack {
 
     }
 
+    /**
+     * This method is used to pause.
+     * It lets us know our player is not running and pauses our media.
+     */
     public void pauseMedia()
     {
         running = false;
@@ -46,6 +48,9 @@ public class PlayBack {
 
     }
 
+    /**
+     * This is what we use for our reset function. It simply seeks to the beginning of the song.
+     */
     public void resetMedia()
     {
         mediaPlayer.seek(Duration.seconds(0));
@@ -70,9 +75,9 @@ public class PlayBack {
 
     /**
      * This method allows us to skip to the previous song.
-     * We are checking if we are at the end of our list or not and allowing us to loop the "playlist" infinitely.
-     * We also use this method to note our current progress in the song, and if we hit previous past 5 seconds it will begin the song again.
-     * If the user then hits previous a second time it will go back a song.
+     * We are checking if we are at the end of our list or not first.
+     * We also use this method to note our current progress in the song, and if we hit previous past 3 seconds it will begin the song again.
+     * If the user then hits previous a second time under 3 seconds it will go back a song.
      */
     public void mediaBack()
     {
@@ -103,9 +108,9 @@ public class PlayBack {
 
 
     /**
-     * This method is used to implement the mediaSet(); method after initialization
-     * First it checks to see if the player is running, if so it stops the song and resets our timer.
-     * Then it retrieves a new song changes our label to match it and finally plays the new song.
+     * This method is used to prevent multiple songs playing at once.
+     * First it checks to see if the player is running, if so it stops the song and lets us know our media is not running.
+     * Then it plays the next song.
      */
     public void changeMediaPlayer()
     {
@@ -113,27 +118,17 @@ public class PlayBack {
             mediaPlayer.stop();
             running = false;
         }
-        mediaSet();
         playSong();
     }
 
+    /**
+     * What we use when we instantiate our media player.
+     */
     public void mediaSet()
     {
         media = new Media(songs.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
     }
-
-    /**
-     * This method is what we use to determine the passed time since the song began, and how much time is left.
-     * We compare our current time and our end time to get our current progress percentage.
-     * if the progress reaches 100%, the timer is reset and our next song plays.
-     * This method is also used to change our previous button icon according to the function it has.
-     */
-
-
-
-
-
 
 
     public void fileToPlaylist()
@@ -148,28 +143,41 @@ public class PlayBack {
 
     }
 
+    /**
+     * In some scenarios we need to know if our player is running or not.
+     */
     public boolean isRunning()
     {
         return running;
     }
 
-
-    public int currentSongNumber()
-    {
-        return songNumber;
-    }
+    /**
+     * Allows us to access our media player from the controller class.
+     */
     public MediaPlayer mediaPlayerAccess()
     {
         return mediaPlayer;
     }
+
+    /**
+     * Gives us access to our media when needed.
+     */
     public Media mediaAccess()
     {
         return media;
     }
 
+    /**
+     * Gives us access to our song number when needed.
+     */
+    public int currentSongNumber()
+    {
+        return songNumber;
+    }
 
-
-
+    /**
+     * What we use to let our controller know what the song name is.
+     */
     public String returnSongLabel()
     {
         String songLabelName;
