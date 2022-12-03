@@ -16,7 +16,7 @@
 <AnchorPane fx:id="mainWindow" prefHeight="610.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MyTunesMainWindowController">
     <children>
         <ListView fx:id="songList" layoutX="446.0" layoutY="147.0" prefHeight="401.0" prefWidth="317.0" />
-        <ListView fx:id="playlistList" layoutX="17.0" layoutY="145.0" prefHeight="402.0" prefWidth="182.0" />
+        <ListView fx:id="playlistList" layoutX="17.0" layoutY="145.0"  prefHeight="402.0" prefWidth="182.0" />
         <ListView fx:id="songsWithinPlaylist" layoutX="225.0" layoutY="146.0" prefHeight="402.0" prefWidth="162.0" />
         <TextField layoutX="624.0" layoutY="33.0" prefHeight="18.0" prefWidth="87.0" />
         <Button layoutX="14.0" layoutY="557.0" mnemonicParsing="false" onAction="#ClickNewPlaylist" text="New..." />

@@ -3,13 +3,24 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.NewPlaylistViewController">
+<AnchorPane fx:id="newPlaylistWindow" prefHeight="187.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.NewPlaylistViewController">
    <children>
-      <Text layoutX="117.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
-      <TextField layoutX="165.0" layoutY="80.0" prefHeight="26.0" prefWidth="275.0" promptText="Playlist name" />
-      <Button layoutX="388.0" layoutY="119.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="51.0" text="Save" />
-      <Button layoutX="317.0" layoutY="119.0" mnemonicParsing="false" text="Cancel" />
+      <Text layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+      <TextField fx:id="newPlaylistNamePrompt" layoutX="59.0" layoutY="73.0" prefHeight="26.0" prefWidth="275.0" promptText="Playlist name" />
+      <Button fx:id="newPlaylistSave" layoutX="283.0" layoutY="116.0" mnemonicParsing="false" onAction="#savePlaylist" prefHeight="26.0" prefWidth="51.0" text="Save" />
+      <Button fx:id="newPlaylistCancel" layoutX="220.0" layoutY="117.0" mnemonicParsing="false" onAction="#closeNewPlaylistWindow" text="Cancel" />
+      <Text layoutX="132.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Playlist" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="errorOnCreate" fill="#dd410c" layoutX="19.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="355.294921875">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

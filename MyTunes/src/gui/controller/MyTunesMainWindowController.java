@@ -44,8 +44,12 @@ public class MyTunesMainWindowController implements Initializable {
 
     PlayBack playBack;
 
+
     private ObservableList<String> withinPlaylist = FXCollections.observableArrayList();
 
+    private ObservableList<String> withinPlaylistList = FXCollections.observableArrayList();
+
+    private ObservableList<String> songLibrary = FXCollections.observableArrayList();
 
     private Timer timer;
     private int[] speeds = {25, 50, 75, 100, 125, 150, 175, 200};
@@ -59,12 +63,17 @@ public class MyTunesMainWindowController implements Initializable {
         //get PlayBack model from bll
         playBack = new PlayBack();
 
+
         playBack.fileToPlaylist();
-        //createPlaylist();
+
         playBack.mediaSet();
         playbackSpeed();
         volume();
         settingsAssurance();
+        viewSongLibrary();
+        viewPlaylist();
+        viewPlaylistList();
+
     }
 
     /**
@@ -118,58 +127,39 @@ public class MyTunesMainWindowController implements Initializable {
         settingsAssurance();
     }
 
-    @FXML
-    void ClickNewPlaylist(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewPlaylistView.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("New Playlist");
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    void ClickEditPlaylist(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditPlaylistView.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("Edit playlist");
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    void ClickNewSong(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewSongView.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("New song");
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    void ClickEditSong(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditSongView.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("Edit song");
-        stage.setScene(scene);
-        stage.show();
-    }
+
 
 
 
     /**
      * This method turns our music folder into a playlist and then uses our songsinplaylist listview to display it.
-     *
-    private void createPlaylist()
+     */
+    private void viewPlaylist()
     {
-        File directory = new File("MyTunes/src/gui/music");
-        String[] inPL;
-        inPL = directory.list();
-        for (String inPlaylist: inPL) {withinPlaylist.add(inPlaylist);}
+        File directory = new File("MyTunes/src/gui/datasources/playlists/music");
+        String[] il;
+        il = directory.list();
+        for (String inlist: il) {withinPlaylist.add(inlist);}
         songsWithinPlaylist.setItems(withinPlaylist);
     }
-     */
 
+    private void viewPlaylistList()
+    {
+        File directory = new File("MyTunes/src/gui/datasources/playlists");
+        String[] il;
+        il = directory.list();
+        for (String inlist: il) {withinPlaylistList.add(inlist);}
+        playlistList.setItems(withinPlaylistList);
+    }
+
+    private void viewSongLibrary()
+    {
+        File directory = new File("MyTunes/src/gui/datasources/songlibrary");
+        String[] il;
+        il = directory.list();
+        for (String inlist: il) {songLibrary.add(inlist);}
+        songList.setItems(songLibrary);
+    }
     /**
      * This method determines how our volume slider works.
 
@@ -250,6 +240,42 @@ public class MyTunesMainWindowController implements Initializable {
 
     }
 
+    @FXML
+    void ClickNewPlaylist(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewPlaylistView.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setTitle("New Playlist");
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    void ClickEditPlaylist(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditPlaylistView.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setTitle("Edit playlist");
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    void ClickNewSong(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewSongView.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setTitle("New song");
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    void ClickEditSong(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditSongView.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setTitle("Edit song");
+        stage.setScene(scene);
+        stage.show();
+    }
 
 }
 
