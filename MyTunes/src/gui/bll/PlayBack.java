@@ -118,11 +118,12 @@ public class PlayBack {
             mediaPlayer.stop();
             running = false;
         }
+        mediaSet();
         playSong();
     }
 
     /**
-     * What we use when we instantiate our media player.
+     * What we use when we instantiate our media player and when we are changing our media.
      */
     public void mediaSet()
     {
