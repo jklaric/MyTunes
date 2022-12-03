@@ -60,7 +60,7 @@ public class MyTunesMainWindowController implements Initializable {
         playBack = new PlayBack();
 
         playBack.fileToPlaylist();
-        createPlaylist();
+        //createPlaylist();
         playBack.mediaSet();
         playbackSpeed();
         volume();
@@ -159,7 +159,7 @@ public class MyTunesMainWindowController implements Initializable {
 
     /**
      * This method turns our music folder into a playlist and then uses our songsinplaylist listview to display it.
-     */
+     *
     private void createPlaylist()
     {
         File directory = new File("MyTunes/src/gui/music");
@@ -168,6 +168,8 @@ public class MyTunesMainWindowController implements Initializable {
         for (String inPlaylist: inPL) {withinPlaylist.add(inPlaylist);}
         songsWithinPlaylist.setItems(withinPlaylist);
     }
+     */
+
     /**
      * This method determines how our volume slider works.
 

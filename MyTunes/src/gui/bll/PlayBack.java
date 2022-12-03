@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class PlayBack {
 
-    private final static String fileInputPath = "MyTunes/src/gui/music";
+    private final static String fileInputPath = "MyTunes/src/gui/datasources/playlists/music";
 
     private static MediaPlayer mediaPlayer;
     private Media media;
