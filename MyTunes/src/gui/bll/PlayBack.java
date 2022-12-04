@@ -103,10 +103,6 @@ public class PlayBack {
         }
     }
 
-
-
-
-
     /**
      * This method is used to prevent multiple songs playing at once.
      * First it checks to see if the player is running, if so it stops the song and lets us know our media is not running.
@@ -131,7 +127,9 @@ public class PlayBack {
         mediaPlayer = new MediaPlayer(media);
     }
 
-
+    /**
+     * We use this to set up our music file into a playlist. Needs to be fully implemented and automated.
+     */
     public void fileToPlaylist()
     {
         songs = new ArrayList<>();

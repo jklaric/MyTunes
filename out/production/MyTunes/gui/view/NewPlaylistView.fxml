@@ -10,8 +10,8 @@
    <children>
       <Text layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
       <TextField fx:id="newPlaylistNamePrompt" layoutX="59.0" layoutY="73.0" prefHeight="26.0" prefWidth="275.0" promptText="Playlist name" />
-      <Button fx:id="newPlaylistSave" layoutX="283.0" layoutY="116.0" mnemonicParsing="false" onAction="#savePlaylist" prefHeight="26.0" prefWidth="51.0" text="Save" />
-      <Button fx:id="newPlaylistCancel" layoutX="220.0" layoutY="117.0" mnemonicParsing="false" onAction="#closeNewPlaylistWindow" text="Cancel" />
+      <Button fx:id="newPlaylistSave" layoutX="283.0" layoutY="116.0" mnemonicParsing="false" onAction="#savePlaylist"  prefHeight="26.0" prefWidth="51.0" text="Save" />
+      <Button fx:id="newPlaylistCancel" layoutX="220.0" layoutY="117.0" mnemonicParsing="false" onAction="#closeNewPlaylistWindow"  text="Cancel" />
       <Text layoutX="132.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Playlist" textAlignment="CENTER">
          <font>
             <Font size="24.0" />

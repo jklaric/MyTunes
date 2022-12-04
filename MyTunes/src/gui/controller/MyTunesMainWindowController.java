@@ -2,6 +2,8 @@ package gui.controller;
 
 
 import gui.bll.PlayBack;
+
+import gui.dal.DataAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,13 +45,9 @@ public class MyTunesMainWindowController implements Initializable {
     private ListView songList,songsWithinPlaylist ,playlistList;
 
     PlayBack playBack;
+    DataAccess dataaccess;
 
 
-    private ObservableList<String> withinPlaylist = FXCollections.observableArrayList();
-
-    private ObservableList<String> withinPlaylistList = FXCollections.observableArrayList();
-
-    private ObservableList<String> songLibrary = FXCollections.observableArrayList();
 
     private Timer timer;
     private int[] speeds = {25, 50, 75, 100, 125, 150, 175, 200};
@@ -62,18 +60,25 @@ public class MyTunesMainWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //get PlayBack model from bll
         playBack = new PlayBack();
-
+        dataaccess = new DataAccess();
 
         playBack.fileToPlaylist();
-
         playBack.mediaSet();
         playbackSpeed();
         volume();
         settingsAssurance();
-        viewSongLibrary();
-        viewPlaylist();
-        viewPlaylistList();
+        dataaccess.makeLibraries();
+        listViewSetup();
+    }
 
+    /**
+     * Fills our list views on application start.
+     */
+    private void listViewSetup()
+    {
+        playlistList.setItems(dataaccess.returnPlaylistList());
+        songList.setItems(dataaccess.returnLibraryView());
+        songsWithinPlaylist.setItems(dataaccess.returnPlaylist());
     }
 
     /**
@@ -113,7 +118,6 @@ public class MyTunesMainWindowController implements Initializable {
         settingsAssurance();
     }
 
-
     /**
      * This method allows us to skip to the previous song.
      * First we stop our timer, then we get the previous song in the list or reset the song.
@@ -127,42 +131,8 @@ public class MyTunesMainWindowController implements Initializable {
         settingsAssurance();
     }
 
-
-
-
-
-    /**
-     * This method turns our music folder into a playlist and then uses our songsinplaylist listview to display it.
-     */
-    private void viewPlaylist()
-    {
-        File directory = new File("MyTunes/src/gui/datasources/playlists/music");
-        String[] il;
-        il = directory.list();
-        for (String inlist: il) {withinPlaylist.add(inlist);}
-        songsWithinPlaylist.setItems(withinPlaylist);
-    }
-
-    private void viewPlaylistList()
-    {
-        File directory = new File("MyTunes/src/gui/datasources/playlists");
-        String[] il;
-        il = directory.list();
-        for (String inlist: il) {withinPlaylistList.add(inlist);}
-        playlistList.setItems(withinPlaylistList);
-    }
-
-    private void viewSongLibrary()
-    {
-        File directory = new File("MyTunes/src/gui/datasources/songlibrary");
-        String[] il;
-        il = directory.list();
-        for (String inlist: il) {songLibrary.add(inlist);}
-        songList.setItems(songLibrary);
-    }
     /**
      * This method determines how our volume slider works.
-
      */
     public void volume()
     {
@@ -237,7 +207,6 @@ public class MyTunesMainWindowController implements Initializable {
 
     @FXML
     void clickSearch(ActionEvent event) {
-
     }
 
     @FXML
@@ -277,5 +246,11 @@ public class MyTunesMainWindowController implements Initializable {
         stage.show();
     }
 
+    /**
+     * refresh button for playlist list, removed function after refactoring. May implement again if list does not update automatically.
+     * @param actionEvent
+     */
+    public void refreshPlaylists(ActionEvent actionEvent) {
+    }
 }
 

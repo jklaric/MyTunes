@@ -22,6 +22,11 @@ public class NewPlaylistViewController implements Initializable{
     public Button newPlaylistSave;
     public Button newPlaylistCancel;
     public Text errorOnCreate;
+
+    /**
+     * First we set up our error text, just in case the user finds a way to enter an invalid filename.
+     * Next we try and assure that our file can only be created with valid characters by using a text formatter for user input.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
             errorOnCreate = new Text();
@@ -40,16 +45,21 @@ public class NewPlaylistViewController implements Initializable{
         }));
     }
 
-
+    /**
+     * This method takes the user input and tries to make a new file (playlist) with it.
+     * If successful the window closes after the file is created.
+     * If unsuccessful the window will return a text error.
+     * @param actionEvent
+     */
     public void savePlaylist(ActionEvent actionEvent) {
         Stage stage = (Stage) newPlaylistSave.getScene().getWindow();
         String root="MyTunes/src/gui/datasources/playlists";
 
-        // specify an abstract pathname in the File object
+        // Specify an abstract pathname in the File object.
+        // In our case we use the root of the playlist folder, add a separator to make it a proper path and then add the user input.
         File f = new File(root+File.separator + newPlaylistNamePrompt.getText() );
         System.out.println(f.getPath());
-        // check if the directory can be created
-        // using the specified path name
+        // check if the directory can be created using the specified path name
         if (f.mkdir() == true) {
             stage.close();
         } else {
@@ -57,6 +67,11 @@ public class NewPlaylistViewController implements Initializable{
         }
 
     }
+
+    /**
+     *
+     * @param actionEvent closes the window when the user clicks cancel.
+     */
     public void closeNewPlaylistWindow(ActionEvent actionEvent) {
         Stage stage = (Stage) newPlaylistSave.getScene().getWindow();
         stage.close();
