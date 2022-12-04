@@ -209,6 +209,9 @@ public class MyTunesMainWindowController implements Initializable {
     void clickSearch(ActionEvent event) {
     }
 
+
+    /**
+     *opens a new window to create a playlist*/
     @FXML
     void ClickNewPlaylist(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewPlaylistView.fxml"));
@@ -218,6 +221,9 @@ public class MyTunesMainWindowController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     *opens a new window to edit a playlist*/
     @FXML
     void ClickEditPlaylist(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditPlaylistView.fxml"));
@@ -227,6 +233,9 @@ public class MyTunesMainWindowController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * opens a new window to create a new song*/
     @FXML
     void ClickNewSong(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewSongView.fxml"));
@@ -236,6 +245,9 @@ public class MyTunesMainWindowController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * opens a window to edit a song*/
     @FXML
     void ClickEditSong(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditSongView.fxml"));
@@ -252,5 +264,22 @@ public class MyTunesMainWindowController implements Initializable {
      */
     public void refreshPlaylists(ActionEvent actionEvent) {
     }
+
+    /**
+     * opens a window to let the user decide if they want to permanently delete a song/playlist*/
+
+    public void ClickDeleteOptionsView(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/view/DeleteOptionsView.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setTitle("Delete item");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+
+
+
 }
 
