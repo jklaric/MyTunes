@@ -30,9 +30,9 @@ import java.util.*;
 
 public class MyTunesMainWindowController implements Initializable {
     @FXML
-    public Button playButton, previousButton, nextButton;
+    public Button playButton, previousButton, nextButton, searchButton;
     @FXML
-    private ImageView play_icon, backward_icon;
+    private ImageView play_icon, backward_icon, search_icon;
     @FXML
     private Label songLabel;
     @FXML
@@ -43,6 +43,8 @@ public class MyTunesMainWindowController implements Initializable {
     private ComboBox<String> speedBox;
     @FXML
     private ListView songList,songsWithinPlaylist ,playlistList;
+    @FXML
+    private TextField filterField;
 
     PlayBack playBack;
     DataAccess dataaccess;
@@ -277,9 +279,13 @@ public class MyTunesMainWindowController implements Initializable {
         stage.show();
     }
 
-
-
-
-
+    public void FilterSongs(){
+        if (searchButton.isPressed()) {
+            search_icon.setImage(new Image("icons/reset_icon.png"));
+            songList.setItems(null);
+            String filterParameter = filterField.getText();
+            songList.setItems(dataaccess.returnFilteredSongs(filterParameter));
+        }
+    }
 }
 

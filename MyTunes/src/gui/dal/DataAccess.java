@@ -67,7 +67,6 @@ public class DataAccess {
      */
     public ObservableList<String> returnLibraryView()
     {
-
         return songLibrary;
     }
 
@@ -89,5 +88,15 @@ public class DataAccess {
     {
 
         return withinPlaylist;
+    }
+
+    public ObservableList<String> returnFilteredSongs(String filterParameter){
+        ObservableList<String> filteredSongList = null;
+        for (String song:songLibrary) {
+            if (song.contains(filterParameter)){
+                filteredSongList.add(song);
+            }
+        }
+        return filteredSongList;
     }
 }

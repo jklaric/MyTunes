@@ -18,7 +18,7 @@
         <ListView fx:id="songList" layoutX="446.0" layoutY="147.0" prefHeight="401.0" prefWidth="317.0" />
         <ListView fx:id="playlistList" layoutX="17.0" layoutY="145.0" prefHeight="402.0" prefWidth="182.0" />
         <ListView fx:id="songsWithinPlaylist" layoutX="225.0" layoutY="146.0" prefHeight="402.0" prefWidth="162.0" />
-        <TextField layoutX="624.0" layoutY="33.0" prefHeight="18.0" prefWidth="87.0" />
+        <TextField fx:id="filterField" layoutX="624.0" layoutY="33.0" prefHeight="18.0" prefWidth="87.0" />
         <Button layoutX="14.0" layoutY="557.0" mnemonicParsing="false" onAction="#ClickNewPlaylist" text="New..." />
         <Button layoutX="86.0" layoutY="557.0" mnemonicParsing="false" onAction="#ClickEditPlaylist" text="Edit..." />
         <Button layoutX="147.0" layoutY="556.0" mnemonicParsing="false" text="Delete" />
@@ -48,7 +48,7 @@
             <Font name="System Bold" size="24.0" />
          </font></Text>
         <Text layoutX="588.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FIlter:" />
-        <Button layoutX="720.0" layoutY="33.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="29.0">
+        <Button fx:id="searchButton" layoutX="720.0" layoutY="33.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="29.0">
             <graphic>
                 <ImageView fx:id="search_icon" fitHeight="19.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
