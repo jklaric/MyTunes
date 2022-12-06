@@ -7,6 +7,7 @@ import gui.dal.DataAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -30,9 +31,10 @@ import java.util.*;
 
 public class MyTunesMainWindowController implements Initializable {
     @FXML
-    public Button playButton, previousButton, nextButton;
+    public Button playButton, previousButton, nextButton, searchButton;
+    public TextField filterField;
     @FXML
-    private ImageView play_icon, backward_icon;
+    private ImageView play_icon, backward_icon, search_icon;
     @FXML
     private Label songLabel;
     @FXML
@@ -277,6 +279,47 @@ public class MyTunesMainWindowController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Filters songlist based on input text when search button is pressed.
+     */
+
+    public void ClickSearch(ActionEvent actionEvent) throws IOException {
+
+        String filterParameter = filterField.getText().toLowerCase();
+        songList.setItems(dataaccess.returnFilteredSongs(filterParameter));
+        search_icon.setImage(new Image("icons/reset_icon.png"));
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                search_icon.setImage(new Image("icons/search_icon.png"));
+                songList.setItems(dataaccess.returnLibraryView());
+                filterField.clear();
+                searchButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        try {
+                            ClickSearch(event);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            }
+
+
+        });
+
+    }
+
+
+    /**
+     * The song list is filtered also when enter key is pressed instead of search button
+     */
+    public void EnterPressed(ActionEvent ep) throws IOException {
+        ClickSearch(new ActionEvent());
+
+    }
 
 
 

@@ -90,4 +90,14 @@ public class DataAccess {
 
         return withinPlaylist;
     }
+
+    public ObservableList<String> returnFilteredSongs(String filterParameter){
+        ObservableList<String> filteredSongList = FXCollections.observableArrayList();
+        for (String song:songLibrary) {
+            if (song.toLowerCase().contains(filterParameter)){
+                filteredSongList.add(song);
+            }
+        }
+        return FXCollections.observableArrayList(filteredSongList);
+    }
 }
