@@ -58,7 +58,7 @@ public class NewSongViewController {
         Song song=new Song(this.title,this.artist,this.category,this.time,this.file);
 
         con= DatabaseConnection.getConnection();
-        String sql="insert into songs values((select nvl(max(id),0)+1 from employee),?,?,?,?,?)";
+        String sql="insert into songs values((select nvl(max(id),0)+1 from song),?,?,?,?,?)";
         pstmt=con.prepareStatement(sql);
         pstmt.setString(1,song.getTitle());
         pstmt.setString(2,song.getArtist());

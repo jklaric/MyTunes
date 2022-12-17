@@ -22,7 +22,7 @@ public class DatabaseConnection {
         dataSource.setTrustServerCertificate(true);
     }
 
-    public Connection getConnection() throws SQLServerException {
+    public static Connection getConnection() throws SQLServerException {
         return dataSource.getConnection();
     }
 }

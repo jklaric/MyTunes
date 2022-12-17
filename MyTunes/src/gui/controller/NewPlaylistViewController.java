@@ -1,5 +1,7 @@
 package gui.controller;
 
+import gui.bll.Playlist;
+import gui.datasources.databaseconnection.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +14,10 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewPlaylistViewController implements Initializable{
@@ -23,6 +29,9 @@ public class NewPlaylistViewController implements Initializable{
     public Button newPlaylistCancel;
     public Text errorOnCreate;
 
+    Connection con=null;
+    ResultSet rs=null;
+    PreparedStatement pstmt=null;
     /**
      * First we set up our error text, just in case the user finds a way to enter an invalid filename.
      * Next we try and assure that our file can only be created with valid characters by using a text formatter for user input.
@@ -51,9 +60,11 @@ public class NewPlaylistViewController implements Initializable{
      * If unsuccessful the window will return a text error.
      * @param actionEvent
      */
-    public void savePlaylist(ActionEvent actionEvent) {
+    public void savePlaylist(ActionEvent actionEvent) throws SQLException {
         Stage stage = (Stage) newPlaylistSave.getScene().getWindow();
         String root="MyTunes/src/gui/datasources/playlists";
+
+        String name=newPlaylistNamePrompt.getText();
 
         // Specify an abstract pathname in the File object.
         // In our case we use the root of the playlist folder, add a separator to make it a proper path and then add the user input.
@@ -65,6 +76,15 @@ public class NewPlaylistViewController implements Initializable{
         } else {
             errorOnCreate.setText("Can not create directory, please check playlist name and try again.");
         }
+
+        Playlist playlist=new Playlist(name);
+
+        con= DatabaseConnection.getConnection();
+        String sql="insert into PlayList values((select nvl(max(id),0)+1 from PlayList),?)";
+        pstmt=con.prepareStatement(sql);
+        pstmt.setString(1,playlist.getName());
+
+        rs=pstmt.executeQuery();
 
     }
 
