@@ -1,7 +1,6 @@
 package gui.bll;
 
 
-
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -9,6 +8,7 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 
 public class PlayBack {
@@ -30,8 +30,7 @@ public class PlayBack {
      * This method is what is used to begin playing a song.
      * It lets us know our player is running and plays the selected song.
      */
-    public void playSong()
-    {
+    public void playSong() {
         running = true;
         mediaPlayer.play();
 
@@ -41,8 +40,7 @@ public class PlayBack {
      * This method is used to pause.
      * It lets us know our player is not running and pauses our media.
      */
-    public void pauseMedia()
-    {
+    public void pauseMedia() {
         running = false;
         mediaPlayer.pause();
 
@@ -51,8 +49,7 @@ public class PlayBack {
     /**
      * This is what we use for our reset function. It simply seeks to the beginning of the song.
      */
-    public void resetMedia()
-    {
+    public void resetMedia() {
         mediaPlayer.seek(Duration.seconds(0));
     }
 
@@ -60,14 +57,10 @@ public class PlayBack {
      * This method allows us to skip to the next song.
      * The if statement is checking if we are at the end of our list or not and allowing us to loop the "playlist" infinitely.
      */
-    public void mediaSkip()
-    {
-        if(songNumber < songs.size() - 1)
-        {
+    public void mediaSkip() {
+        if (songNumber < songs.size() - 1) {
             songNumber++;
-        }
-        else
-        {
+        } else {
             songNumber = 0;
         }
         changeMediaPlayer();
@@ -79,24 +72,19 @@ public class PlayBack {
      * We also use this method to note our current progress in the song, and if we hit previous past 3 seconds it will begin the song again.
      * If the user then hits previous a second time under 3 seconds it will go back a song.
      */
-    public void mediaBack()
-    {
+    public void mediaBack() {
         int i = (int) mediaPlayer.getCurrentTime().toSeconds();
-        if(songNumber > 0)
-        {
-            if(i > 3){
+        if (songNumber > 0) {
+            if (i > 3) {
                 resetMedia();
-            }
-            else {
+            } else {
                 songNumber--;
                 changeMediaPlayer();
             }
-        }
-        else {
-            if(i > 3){
+        } else {
+            if (i > 3) {
                 resetMedia();
-            }
-            else {
+            } else {
                 songNumber = songs.size() - 1;
                 changeMediaPlayer();
             }
@@ -108,9 +96,8 @@ public class PlayBack {
      * First it checks to see if the player is running, if so it stops the song and lets us know our media is not running.
      * Then it plays the next song.
      */
-    public void changeMediaPlayer()
-    {
-        if(running) {
+    public void changeMediaPlayer() {
+        if (running) {
             mediaPlayer.stop();
             running = false;
         }
@@ -121,8 +108,7 @@ public class PlayBack {
     /**
      * What we use when we instantiate our media player and when we are changing our media.
      */
-    public void mediaSet()
-    {
+    public void mediaSet() {
         media = new Media(songs.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
     }
@@ -130,12 +116,11 @@ public class PlayBack {
     /**
      * We use this to set up our music file into a playlist. Needs to be fully implemented and automated.
      */
-    public void fileToPlaylist()
-    {
+    public void fileToPlaylist() {
         songs = new ArrayList<>();
         File directory = new File(fileInputPath);
         File[] files = directory.listFiles();
-        if(files != null){
+        if (files != null) {
             Collections.addAll(songs, files);
 
         }
@@ -145,42 +130,58 @@ public class PlayBack {
     /**
      * In some scenarios we need to know if our player is running or not.
      */
-    public boolean isRunning()
-    {
+    public boolean isRunning() {
         return running;
     }
 
     /**
      * Allows us to access our media player from the controller class.
      */
-    public MediaPlayer mediaPlayerAccess()
-    {
+    public MediaPlayer mediaPlayerAccess() {
         return mediaPlayer;
     }
 
     /**
      * Gives us access to our media when needed.
      */
-    public Media mediaAccess()
-    {
+    public Media mediaAccess() {
         return media;
     }
 
     /**
      * Gives us access to our song number when needed.
      */
-    public int currentSongNumber()
-    {
+    public int currentSongNumber() {
         return songNumber;
     }
 
     /**
      * What we use to let our controller know what the song name is.
      */
-    public String returnSongLabel()
-    {
+    public String returnSongLabel() {
         String songLabelName;
         songLabelName = songs.get(songNumber).getName();
         return songLabelName;
     }
+
+    public void PlayRandomSong() {
+
+        ArrayList<Integer> toPlay = new ArrayList<>();
+        ArrayList<Integer> played = new ArrayList<>();
+
+        toPlay.add(0);
+        toPlay.add(1);
+        toPlay.add(2);
+
+        Collections.shuffle(toPlay);
+        System.out.println(toPlay);
+
+        for (int i = 0; i < toPlay.size(); i++) {
+            songNumber = toPlay.get(i); 
+        }
+        toPlay.remove(songNumber);
+        played.add(songNumber);
+
+    }
+
 }

@@ -32,7 +32,11 @@ import java.util.*;
 public class MyTunesMainWindowController implements Initializable {
     @FXML
     public Button playButton, previousButton, nextButton, searchButton;
-    public TextField filterField;
+    public ToggleButton shuffleButton;
+    public ImageView shuffle_icon;
+    @FXML
+    private TextField filterField;
+
     @FXML
     private ImageView play_icon, backward_icon, search_icon;
     @FXML
@@ -44,11 +48,10 @@ public class MyTunesMainWindowController implements Initializable {
     @FXML
     private ComboBox<String> speedBox;
     @FXML
-    private ListView songList,songsWithinPlaylist ,playlistList;
+    private ListView songList, songsWithinPlaylist, playlistList;
 
     PlayBack playBack;
     DataAccess dataaccess;
-
 
 
     private Timer timer;
@@ -76,8 +79,7 @@ public class MyTunesMainWindowController implements Initializable {
     /**
      * Fills our list views on application start.
      */
-    private void listViewSetup()
-    {
+    private void listViewSetup() {
         playlistList.setItems(dataaccess.returnPlaylistList());
         songList.setItems(dataaccess.returnLibraryView());
         songsWithinPlaylist.setItems(dataaccess.returnPlaylist());
@@ -88,18 +90,17 @@ public class MyTunesMainWindowController implements Initializable {
      * First it checks if the media is running.
      * If it is, it pauses it and changes the icon to the play icon.
      * Then it clears our timer, and finally pauses our song.
-     *
+     * <p>
      * If it is not running, it simply starts our timer and plays the current song.
      */
     @FXML
     void playMedia() {
-        if(playBack.isRunning()){
+        if (playBack.isRunning()) {
             play_icon.setImage(new Image("icons/play_icon.png"));
             timer.cancel();
             playBack.pauseMedia();
 
-        }
-        else{
+        } else {
             beginTimer();
             playBack.playSong();
             play_icon.setImage(new Image("icons/pause_icon.png"));
@@ -112,8 +113,7 @@ public class MyTunesMainWindowController implements Initializable {
      * We simply reset our timer and skip to the next file in the playlist.
      */
     @FXML
-    void nextMedia()
-    {
+    void nextMedia() {
         timer.cancel();
         playBack.mediaSkip();
         beginTimer();
@@ -136,8 +136,7 @@ public class MyTunesMainWindowController implements Initializable {
     /**
      * This method determines how our volume slider works.
      */
-    public void volume()
-    {
+    public void volume() {
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> playBack.mediaPlayerAccess().setVolume(volumeSlider.getValue() * 0.01));
     }
 
@@ -145,8 +144,7 @@ public class MyTunesMainWindowController implements Initializable {
      * This method is the logic of our speed change.
      * It changes our speed percentage based off our array of speeds.
      */
-    public void playbackSpeed()
-    {
+    public void playbackSpeed() {
         for (int speed : speeds) {
             speedBox.getItems().add(speed + "%");
         }
@@ -157,10 +155,9 @@ public class MyTunesMainWindowController implements Initializable {
      * This method is what we use to let the user set the playback speed of our song.
      */
     public void changeSpeed(ActionEvent event) {
-        if(speedBox.getValue() == null) {
+        if (speedBox.getValue() == null) {
             playBack.mediaPlayerAccess().setRate(1);
-        }
-        else {
+        } else {
             playBack.mediaPlayerAccess().setRate(Integer.parseInt(speedBox.getValue().substring(0, speedBox.getValue().length() - 1)) * 0.01);
         }
     }
@@ -170,21 +167,18 @@ public class MyTunesMainWindowController implements Initializable {
      * The timer assures our progress bar works properly, and changes our previous button to replay button based on time.
      * Finally, it will automatically skip to the next song when one finishes.
      */
-    public void beginTimer()
-    {
+    public void beginTimer() {
         timer = new Timer();
         TimerTask task = new TimerTask() {
             public void run() {
 
                 current = playBack.mediaPlayerAccess().getCurrentTime().toSeconds();
                 end = playBack.mediaAccess().getDuration().toSeconds();
-                songProgressBar.setProgress(current/end);
+                songProgressBar.setProgress(current / end);
 
-                if(current > 3){
+                if (current > 3) {
                     backward_icon.setImage(new Image("icons/reset_icon.png"));
-                }
-                else
-                {
+                } else {
                     backward_icon.setImage(new Image("icons/backward_icon.png"));
                 }
 
@@ -200,8 +194,7 @@ public class MyTunesMainWindowController implements Initializable {
     /**
      * This method assures that our volume, playback speed, and song label all match user settings at all times.
      */
-    private void settingsAssurance()
-    {
+    private void settingsAssurance() {
         playBack.mediaPlayerAccess().setVolume(volumeSlider.getValue() * 0.01);
         songLabel.setText(playBack.returnSongLabel());
         changeSpeed(null);
@@ -213,7 +206,8 @@ public class MyTunesMainWindowController implements Initializable {
 
 
     /**
-     *opens a new window to create a playlist*/
+     * opens a new window to create a playlist
+     */
     @FXML
     void ClickNewPlaylist(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewPlaylistView.fxml"));
@@ -225,7 +219,8 @@ public class MyTunesMainWindowController implements Initializable {
     }
 
     /**
-     *opens a new window to edit a playlist*/
+     * opens a new window to edit a playlist
+     */
     @FXML
     void ClickEditPlaylist(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditPlaylistView.fxml"));
@@ -237,7 +232,8 @@ public class MyTunesMainWindowController implements Initializable {
     }
 
     /**
-     * opens a new window to create a new song*/
+     * opens a new window to create a new song
+     */
     @FXML
     void ClickNewSong(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/NewSongView.fxml"));
@@ -249,7 +245,8 @@ public class MyTunesMainWindowController implements Initializable {
     }
 
     /**
-     * opens a window to edit a song*/
+     * opens a window to edit a song
+     */
     @FXML
     void ClickEditSong(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/EditSongView.fxml"));
@@ -262,13 +259,15 @@ public class MyTunesMainWindowController implements Initializable {
 
     /**
      * refresh button for playlist list, removed function after refactoring. May implement again if list does not update automatically.
+     *
      * @param actionEvent
      */
     public void refreshPlaylists(ActionEvent actionEvent) {
     }
 
     /**
-     * opens a window to let the user decide if they want to permanently delete a song/playlist*/
+     * opens a window to let the user decide if they want to permanently delete a song/playlist
+     */
 
     public void ClickDeleteOptionsView(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/view/DeleteOptionsView.fxml"));
@@ -284,11 +283,9 @@ public class MyTunesMainWindowController implements Initializable {
      */
 
     public void ClickSearch(ActionEvent actionEvent) throws IOException {
-
         String filterParameter = filterField.getText().toLowerCase();
         songList.setItems(dataaccess.returnFilteredSongs(filterParameter));
         search_icon.setImage(new Image("icons/reset_icon.png"));
-
         searchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -306,10 +303,7 @@ public class MyTunesMainWindowController implements Initializable {
                     }
                 });
             }
-
-
         });
-
     }
 
 
@@ -322,7 +316,21 @@ public class MyTunesMainWindowController implements Initializable {
     }
 
 
+    public void ClickShuffle(ActionEvent actionEvent) {
+
+        if (shuffleButton.isSelected()) {
+            shuffle_icon.setImage(new Image("icons/greenshuffle_icon.png"));
+            playBack.PlayRandomSong();
+
+        } else {
+            shuffle_icon.setImage(new Image("icons/shuffle_icon.png"));
+
+        }
+        beginTimer();
+    }
 
 
 }
+
+
 
