@@ -80,7 +80,7 @@ public class NewPlaylistViewController implements Initializable{
         Playlist playlist=new Playlist(name);
 
         con= DatabaseConnection.getConnection();
-        String sql="insert into PlayList values((select nvl(max(id),0)+1 from PlayList),?)";
+        String sql="insert into playtlist values((select nvl(max(id),0)+1 from PlayList),?)";
         pstmt=con.prepareStatement(sql);
         pstmt.setString(1,playlist.getName());
 

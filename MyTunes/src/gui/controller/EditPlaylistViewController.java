@@ -27,7 +27,7 @@ public class EditPlaylistViewController {
     void changeName(ActionEvent event) throws SQLException {
 
         con= DatabaseConnection.getConnection();
-        String sql="update PlayList set name=? where id=?";
+        String sql="update playlist set name=? where id=?";
         pstmt=con.prepareStatement(sql);
         pstmt.setString(1,newName.getText());
         pstmt.setInt(6, Integer.parseInt(playlistId.getText()) );
