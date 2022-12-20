@@ -30,7 +30,7 @@ public class EditPlaylistViewController {
         String sql="update playlist set name=? where id=?";
         pstmt=con.prepareStatement(sql);
         pstmt.setString(1,newName.getText());
-        pstmt.setInt(6, Integer.parseInt(playlistId.getText()) );
+        pstmt.setInt(2, Integer.parseInt(playlistId.getText()) );
 
         rs=pstmt.executeQuery();
     }
