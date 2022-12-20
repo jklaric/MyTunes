@@ -3,7 +3,10 @@ package gui.controller;
 
 import gui.bll.PlayBack;
 
+import gui.bll.Playlist;
+import gui.bll.Song;
 import gui.dal.DataAccess;
+import gui.datasources.databaseconnection.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +28,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 
@@ -68,18 +75,89 @@ public class MyTunesMainWindowController implements Initializable {
         volume();
         settingsAssurance();
         dataaccess.makeLibraries();
-        listViewSetup();
+        try {
+            listViewSetup();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * Fills our list views on application start.
      */
-    private void listViewSetup()
-    {
-        playlistList.setItems(dataaccess.returnPlaylistList());
-        songList.setItems(dataaccess.returnLibraryView());
-        songsWithinPlaylist.setItems(dataaccess.returnPlaylist());
+
+    Connection con=null;
+    ResultSet rs=null;
+    PreparedStatement pstmt=null;
+    ObservableList<String> songs=FXCollections.observableArrayList();
+    ObservableList<String> playlists=FXCollections.observableArrayList();
+    List<Playlist> playlistsList=new ArrayList<>();
+    ObservableList<String> songsINPlaylist=FXCollections.observableArrayList();
+
+
+
+    private void listViewSetup() throws SQLException {
+        getSongs();
+        getPlaylists();
+        getSoingsInPlaylist();
+        playlistList.setItems(playlists);
+        songList.setItems(songs);
+        songsWithinPlaylist.setItems(songsINPlaylist);
+
+
     }
+
+    private void getSoingsInPlaylist() throws SQLException {
+
+        for (Song e:playlistsList.get(0).getSongs()) {
+            this.songsINPlaylist.add(e.toString());
+        }
+    }
+
+    private void getPlaylists() throws SQLException {
+        con= DatabaseConnection.getConnection();
+        String selectStmt = "SELECT * FROM playlist";
+
+        pstmt=con.prepareStatement(selectStmt);
+        rs=pstmt.executeQuery();
+
+
+
+        if (rs.next()) {
+            Playlist playlist = new Playlist();
+            playlist.setName(rs.getString("name"));
+            this.playlistsList.add(playlist);
+            this.playlists.add(playlist.toString());
+
+        }
+    }
+
+    private void getSongs() throws SQLException
+    {
+        con= DatabaseConnection.getConnection();
+        String selectStmt = "SELECT * FROM songs";
+
+        pstmt=con.prepareStatement(selectStmt);
+        rs=pstmt.executeQuery();
+
+
+        Song song = null;
+        if (rs.next()) {
+            song = new Song();
+            song.setTitle(rs.getString("title"));
+            song.setTitle(rs.getString("artist"));
+            song.setTitle(rs.getString("category"));
+            song.setTitle(rs.getString("time"));
+            song.setTitle(rs.getString("file"));
+
+
+            this.songs.add(song.toString());
+
+
+
+        }
+    }
+
 
     /**
      * This is what is used when we click the play/pause button.

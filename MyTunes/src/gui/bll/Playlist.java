@@ -9,6 +9,10 @@ public class Playlist {
     private String name;
 
 
+    public Playlist() {
+        this.songs = new ArrayList<>();
+    }
+
     public Playlist(String name) {
         this.name = name;
         this.songs=new ArrayList<>();
