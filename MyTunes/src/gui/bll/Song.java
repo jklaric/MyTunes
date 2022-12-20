@@ -12,6 +12,7 @@ public class Song {
 
     private String filePath;
 
+
     public Song() {
     }
 
@@ -62,4 +63,5 @@ public class Song {
         this.time = time;
         this.filePath = filePath;
     }
+
 }

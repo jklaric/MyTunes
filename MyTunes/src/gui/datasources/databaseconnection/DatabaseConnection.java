@@ -5,7 +5,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 
 public class DatabaseConnection {
-    private SQLServerDataSource dataSource;
+    private static SQLServerDataSource dataSource;
 
     /**
      * Constructor for database connection. Connects to a database with selected login info.
@@ -26,3 +26,4 @@ public class DatabaseConnection {
         return dataSource.getConnection();
     }
 }
+

@@ -23,5 +23,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="microsoft.sqlserver.mssql.jdbc" level="project" />
+    <orderEntry type="library" name="javax.xml.bind.jaxb.api" level="project" />
   </component>
 </module>
