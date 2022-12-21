@@ -1,5 +1,6 @@
 package gui.controller;
 
+<<<<<<< Updated upstream
 import gui.bll.Song;
 import gui.datasources.databaseconnection.DatabaseConnection;
 import javafx.fxml.FXML;
@@ -113,6 +114,48 @@ public class NewSongViewController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+=======
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextInputDialog;
+
+import java.net.URL;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
+public class NewSongViewController implements Initializable {
+    @FXML
+    public ComboBox genreComboBox;
+    public Button moreButton;
+
+    ObservableList<String> genreList = FXCollections.observableArrayList("Pop", "EDM", "Rock", "Rap", "Metal",
+            "Reggae", "Experimental", "Dance", "Jazz", "Blues", "Traditional", "Folk", "Classical");
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        SetupComboBox();
+
+    }
+
+    public void SetupComboBox(){
+        genreComboBox.setValue("Select genre");
+        genreComboBox.setItems(genreList);
+    }
+
+    public void CreateNewGenre(){
+        TextInputDialog genrePopup = new TextInputDialog();
+        genrePopup.setHeaderText("Enter genre name!");
+        genrePopup.setContentText("Genre:");
+        Optional<String> input = genrePopup.showAndWait();
+        if (input.isPresent()){
+            genreList.add(input.get());
+            genreComboBox.setItems(genreList);
+        }
+>>>>>>> Stashed changes
     }
 }
 
